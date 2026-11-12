@@ -1,34 +1,73 @@
-
 package com.fixly.presencemanager
-
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.util.Log
 import android.view.GestureDetector
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 
 class DashboardActivity : AppCompatActivity() {
+
+    // ---------- TP04 : CAB ----------
+    private var actionMode: ActionMode? = null
+
+    private val cabCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            mode.menuInflater.inflate(R.menu.menu_cab_dashboard, menu)
+            mode.title = "Actions contextuelles"
+            // Optionnel : la CAB prend la place de l'en-tête (demande du formateur)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = false
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean =
+            when (item.itemId) {
+                R.id.action_afficher -> {
+                    AlertDialog.Builder(this@DashboardActivity)
+                        .setTitle("CAB")
+                        .setMessage("Action Afficher exécutée.")
+                        .setPositiveButton("OK", null)
+                        .show()
+                    true
+                }
+                R.id.action_terminer -> {
+                    mode.finish()
+                    true
+                }
+                else -> false
+            }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            actionMode = null
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        Log.d("TP03", "Tableau de bord affiché")
+        Log.d("TP04", "Tableau de bord affiché")
 
         val cardGroupes = findViewById<View>(R.id.cardGroupes)
         val cardAppel = findViewById<View>(R.id.cardAppel)
         val cardHistorique = findViewById<View>(R.id.cardHistorique)
         val cardStatistiques = findViewById<View>(R.id.cardStatistiques)
 
-        // Étape 5 : clic simple -> ouvrir la page associée
+        // ---------- TP03 : clic simple ----------
         cardGroupes.setOnClickListener {
-            Log.d("TP03", "Clic simple sur Groupes")
             startActivity(Intent(this, GroupesActivity::class.java))
         }
         cardAppel.setOnClickListener {
@@ -41,7 +80,7 @@ class DashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, StatistiquesActivity::class.java))
         }
 
-        // Étape 6 : appui long sur Groupes et Faire l'appel -> Toast
+        // ---------- TP03 : appui long ----------
         cardGroupes.setOnLongClickListener {
             Toast.makeText(
                 this,
@@ -59,7 +98,7 @@ class DashboardActivity : AppCompatActivity() {
             true
         }
 
-        // Étape 7 : double-clic sur imgProfil -> boîte "À propos"
+        // ---------- TP03 : double-clic sur imgProfil ----------
         val imgProfil = findViewById<ImageView>(R.id.imgProfil)
         val detecteur = GestureDetector(
             this,
@@ -81,9 +120,44 @@ class DashboardActivity : AppCompatActivity() {
             true
         }
 
-        // Étape 8 : clic sur "Version 1.0" -> informations du développeur
+        // ---------- TP03 : clic sur "Version 1.0" ----------
         findViewById<TextView>(R.id.txtFooterDashboard).setOnClickListener {
             afficherInfosDeveloppeur()
+        }
+
+        // ---------- TP04 : bouton CAB ----------
+        val btnCab = findViewById<Button>(R.id.btnCab)
+        btnCab.setOnClickListener {
+            if (actionMode == null) {
+                actionMode = startSupportActionMode(cabCallback)
+            }
+        }
+
+        // ---------- TP04 : bouton Pop-up ----------
+        val btnPopup = findViewById<Button>(R.id.btnPopup)
+        btnPopup.setOnClickListener {
+            val popupMenu = PopupMenu(this, btnPopup)
+            popupMenu.menuInflater.inflate(
+                R.menu.menu_popup_dashboard, popupMenu.menu
+            )
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_ouvrir_groupes -> {
+                        startActivity(Intent(this, GroupesActivity::class.java))
+                        true
+                    }
+                    R.id.action_informations -> {
+                        AlertDialog.Builder(this)
+                            .setTitle("PrésenceManager")
+                            .setMessage("Menu contextuel flottant du tableau de bord.")
+                            .setPositiveButton("OK", null)
+                            .show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
         }
     }
 
@@ -93,7 +167,7 @@ class DashboardActivity : AppCompatActivity() {
             .setMessage(
                 "Application : PrésenceManager\n" +
                         "Version : 1.0\n" +
-                        "Développeur : Abdelghafour belghman\n" +
+                        "Développeur : NOM_PRENOM\n" +
                         "GitHub : https://github.com/ghafor23/PresenceManager"
             )
             .setPositiveButton("OK", null)

@@ -80,3 +80,29 @@ Un clic sur le texte « Version 1.0 » (écran d'accueil et tableau de bord) ouv
 **Boîte « Informations du développeur »**
 
 ![Informations du développeur](Screenshots/tp03_infos_developpeur.png)
+
+## TP04 - Actions contextuelles : CAB et Pop-up
+
+Deux boutons indépendants ont été ajoutés sous la grille du tableau de bord : **CAB** et **Pop-up**. Les quatre cartes conservent leur apparence et leurs événements du TP03.
+
+### CAB (Contextual Action Bar)
+- Un clic sur le bouton **CAB** démarre un `ActionMode` avec `startSupportActionMode`.
+- Le menu est défini dans `res/menu/menu_cab_dashboard.xml`.
+- **Afficher** ouvre un `AlertDialog`.
+- **Terminer** ferme la barre contextuelle avec `mode.finish()`.
+
+### Menu flottant (Pop-up)
+- Un clic sur le bouton **Pop-up** ouvre un `PopupMenu` ancré sur le bouton.
+- Le menu est défini dans `res/menu/menu_popup_dashboard.xml`.
+- **Ouvrir Groupes** lance `GroupesActivity`.
+- **Informations** ouvre un `AlertDialog` avec un bouton OK.
+
+### Captures d'écran TP04
+
+**CAB**
+
+![CAB](Screenshots/tp04_cab.png)
+
+**Pop-up**
+
+![Pop-up](Screenshots/tp04_popup.png)
