@@ -106,3 +106,13 @@ Deux boutons indépendants ont été ajoutés sous la grille du tableau de bord 
 **Pop-up**
 
 ![Pop-up](Screenshots/tp04_popup.png)
+### Captures d'écran TP05
+
+**ArrayAdapter**
+
+![ArrayAdapter](Screenshots/tp05_array_adapter.png)
+
+**BaseAdapter**
+
+![BaseAdapter](Screenshots/tp05_base_adapter.png)
+ 

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/action_ouvrir_groupes"
-        android:title="Ouvrir Groupes" />
+        android:title="Ouvrir les groupes" />
 
     <item
         android:id="@+id/action_informations"

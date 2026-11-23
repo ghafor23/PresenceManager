@@ -9,9 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
+
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -125,40 +124,8 @@ class DashboardActivity : AppCompatActivity() {
             afficherInfosDeveloppeur()
         }
 
-        // ---------- TP04 : bouton CAB ----------
-        val btnCab = findViewById<Button>(R.id.btnCab)
-        btnCab.setOnClickListener {
-            if (actionMode == null) {
-                actionMode = startSupportActionMode(cabCallback)
-            }
-        }
 
-        // ---------- TP04 : bouton Pop-up ----------
-        val btnPopup = findViewById<Button>(R.id.btnPopup)
-        btnPopup.setOnClickListener {
-            val popupMenu = PopupMenu(this, btnPopup)
-            popupMenu.menuInflater.inflate(
-                R.menu.menu_popup_dashboard, popupMenu.menu
-            )
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_ouvrir_groupes -> {
-                        startActivity(Intent(this, GroupesActivity::class.java))
-                        true
-                    }
-                    R.id.action_informations -> {
-                        AlertDialog.Builder(this)
-                            .setTitle("PrésenceManager")
-                            .setMessage("Menu contextuel flottant du tableau de bord.")
-                            .setPositiveButton("OK", null)
-                            .show()
-                        true
-                    }
-                    else -> false
-                }
-            }
-            popupMenu.show()
-        }
+
     }
 
     private fun afficherInfosDeveloppeur() {
@@ -167,7 +134,7 @@ class DashboardActivity : AppCompatActivity() {
             .setMessage(
                 "Application : PrésenceManager\n" +
                         "Version : 1.0\n" +
-                        "Développeur : NOM_PRENOM\n" +
+                        "Développeur : Abdelghafour\n" +
                         "GitHub : https://github.com/ghafor23/PresenceManager"
             )
             .setPositiveButton("OK", null)
